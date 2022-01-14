@@ -40,7 +40,8 @@ h4{
   text-align: center;
   align-items: center;
   display: grid;
-  grid-template-columns: 3fr 5fr 4fr ;
+  grid-template-columns: 3fr 5fr 4fr;
+  width: 90%;
   padding: 30px;
 }
 button{
@@ -100,6 +101,7 @@ header{
 }
 .text-col{
   text-align: left;
+  margin-left: 10px;
 }
 #loan-btn{
   width: 80%;
@@ -113,7 +115,7 @@ header{
   bottom: 10px;
   left: 0;
 }
-#error-message{
+.error-text{
   text-align: center;
   color: red;
   font-size: 12px;
@@ -123,4 +125,21 @@ header{
   background-color: rgb(255, 139, 139);
   border: 1px solid rgb(238, 42, 42);
   z-index: 10;
+}
+#spec-list{
+  list-style-type: none;
+}
+#spec-list:before{
+  content:attr(aria-label);
+  margin-left: -15px;
+  font-weight: bold;
+}
+#spec-list > li{
+  font-size: 10px;
+}
+#laptop-img{
+  width: 150px;
+}
+img{
+  color: transparent;
 }

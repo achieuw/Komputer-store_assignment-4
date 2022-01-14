@@ -20,7 +20,7 @@
         <h3>Joe Banker</h3>
         <p>Balance <span id="bank-balance" class="float-right">10</span></p>
         <p id="loan-text">Loan <span id="loan" class="float-right">0</span></p>
-        <p id="error-message"></p>
+        <p id="error-message" class="error-text"></p>
         <div class="float-bottom justify-center">
           <button id="loan-btn" class="green">Get a loan</button>
         </div>
@@ -41,16 +41,12 @@
       <div class="laptop-menu box">
         <h3>Laptops</h3>
         <select name="laptop-menu" id="laptop-menu">
-          <option value="Intol Celeroon E100">Intol Celeroon E100</option>
+          <!-- Laptop API added as options in app.js -->
         </select>
-
-        <div class="text-box">
-          <span>
-            <b style="font-size: 16px;">Features:</b><br>
-            It has a screen<br>
-            There's a keyboard<br>
-            (Some keys moght be missing)
-          </span>
+        <div class="spec-text-box">
+            <ul id="spec-list" aria-label="Features">
+              <!-- laptop specs added dynamically in app.js -->
+            </ul>
         </div>
     </section>
 
@@ -58,17 +54,19 @@
     <section>
       <div class="box-100">
         <div class="item img-col">
-          <img src="" alt="laptop image">
+          <img id="laptop-img" src="" alt="laptop image">
+          <p id="img-error-text" class="error-text">Laptop image not found :(</p>
         </div>
 
         <div class="item text-col">
-          <h3>Intol Celeroon E10</h3>
-          <p>This laptop will turn on! It is perfect for the first time user who likes to have a computer around!</p>
+          <h3 id="laptop-title">Intol Celeroon E10</h3>
+          <p id="laptop-info">This laptop will turn on! It is perfect for the first time user who likes to have a computer around!</p>
         </div>
 
         <div class="item buy-col">
-          <h4>1500 NOK</h4>
+          <h4 id="laptop-price">1500 NOK</h4>
           <button id="buy-btn" class="light-blue"><b>BUY NOW</b></button> 
+          <p style="margin-top: 1rem;" id="buy-error-text" class="error-text">You have insufficient balance</p>
         </div>
       </div>
     </section>
