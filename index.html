@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Komputer Store</title>
+</head>
+<body>
+  <header>
+    <div id="logo">
+      <h1>Komputer Store</h1>
+    </div>
+  </header>
+  <main>
+    <!-- First section contains: User balance info, Work info, Laptop dropdown with features-->
+    <section>
+      <div class="user-info box">
+        <h3>Joe Banker</h3>
+        <p>Balance <span id="bank-balance" class="float-right">10</span></p>
+        <p id="loan-text">Loan <span id="loan" class="float-right">0</span></p>
+        <p id="error-message"></p>
+        <div class="float-bottom justify-center">
+          <button id="loan-btn" class="green">Get a loan</button>
+        </div>
+      </div>
+
+      <div class="work-info box">
+        <h3>Work</h3>
+        <p>Pay <span id="pay-balance" class="float-right">0 Kr.</span></p>
+        <div class="justify-center">
+          <button id="repay-btn">Repay loan</button>
+        </div>
+        <div class="float-bottom space-evenly">
+          <button id="bank-btn" class="yellow">Bank</button>
+          <button id="work-btn" class="blue">Work</button>
+        </div>     
+      </div>
+
+      <div class="laptop-menu box">
+        <h3>Laptops</h3>
+        <select name="laptop-menu" id="laptop-menu">
+          <option value="Intol Celeroon E100">Intol Celeroon E100</option>
+        </select>
+
+        <div class="text-box">
+          <span>
+            <b style="font-size: 16px;">Features:</b><br>
+            It has a screen<br>
+            There's a keyboard<br>
+            (Some keys moght be missing)
+          </span>
+        </div>
+    </section>
+
+    <!-- Second section contains laptop info and cost-->
+    <section>
+      <div class="box-100">
+        <div class="item img-col">
+          <img src="" alt="laptop image">
+        </div>
+
+        <div class="item text-col">
+          <h3>Intol Celeroon E10</h3>
+          <p>This laptop will turn on! It is perfect for the first time user who likes to have a computer around!</p>
+        </div>
+
+        <div class="item buy-col">
+          <h4>1500 NOK</h4>
+          <button id="buy-btn" class="light-blue"><b>BUY NOW</b></button> 
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
