@@ -1,9 +1,11 @@
 :root {
   --box-background-color: rgb(241, 241, 241);
+  --button-padding: 8px 20px;
 }
 /* -- Global -- */
 body{
   margin: 0;
+  box-sizing: border-box;
   font-family: 'Helvetica', sans-serif;
 }
 h1{
@@ -33,18 +35,24 @@ button{
   padding: 8px 20px;
   cursor: pointer;
   margin-top: 50px;
+  transition: 0.5s;
+  background-size: 200% auto;
+  font-size: 12px;
+}
+button:hover{
+  background-position: right center;
 }
 .box, .box-100{
   background-color: var(--box-background-color);
   border-radius: 12px;
   height: 220px;
   align-items: center;
-  margin: 10px;
+  margin: 6px;
 }
 .box{
   position: relative;
   padding: 16px;
-  min-width: 180px;
+  width: 180px;
 }
 .box-100{
   text-align: center;
@@ -66,20 +74,23 @@ button{
   float: right;
 }
 .yellow{
-  background-color: yellow;
+  background-image: linear-gradient(to right, #fbff25 0%, #f7db82 51%, #fbff25 100%);
   border: 1px solid rgb(226, 226, 0);
 }
 .green{
-  background-color: rgb(62, 221, 173);
+  background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%);
   border: 1px solid rgb(43, 206, 157);
 }
 .blue{
-  color:white;
-  background-color: rgb(62, 105, 221);
+  background-image: linear-gradient(to right, #4967ee 0%, #8fd3f4 51%, #4967ee 100%);
   border: 1px solid rgb(35, 75, 185);
 }
+.red{
+  background-image: linear-gradient(to right, #df2727 0%, #ffb94f 51%, #df2727 100%);
+  border: 1px solid rgb(175, 15, 15);
+}
 .light-blue{
-  background-color: rgb(0, 153, 255);
+  background-color: rgb(64, 165, 233);
   border: 1px solid rgb(0, 130, 216);
 }
 /* -!- Global -!- */
@@ -112,6 +123,19 @@ header{
 #bank-btn, #work-btn{
   width: 40%;
 }
+#repay-btn{
+  z-index: 10;
+  visibility: hidden;
+}
+@keyframes box-shadow-anim{
+  0% {box-shadow: 0px 0px 15px 10px #becef800;}
+  40% {box-shadow: 0px 0px 15px 15px #b5ffda; background-color: #65eca9;}
+  60% {box-shadow: 0px 0px 15px 15px #b5ffda; background-color: #65eca9; border-color: rgb(75, 207, 75);}
+  100% {box-shadow: 0px 0px 15px 10px #becef800;}
+}
+#buy-btn:hover{
+  animation: box-shadow-anim 1s infinite;
+}
 .float-bottom{
   width: 100%;
   position: absolute;
@@ -122,13 +146,7 @@ header{
   text-align: center;
   color: red;
   font-size: 12px;
-  margin-top: 0;
-  width: 180px;
-}
-#repay-btn{
-  background-color: rgb(255, 139, 139);
-  border: 1px solid rgb(238, 42, 42);
-  z-index: 10;
+  visibility: hidden;
 }
 #spec-list{
   list-style-type: none;

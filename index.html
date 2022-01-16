@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
+  <link rel="shortcut icon" type="image/x-icon" href="sadge-kitten.jpg">
   <title>Komputer Store</title>
 </head>
 <body>
@@ -20,7 +21,7 @@
         <h3>Joe Banker</h3>
         <p>Balance <span id="bank-balance" class="float-right">10</span></p>
         <p id="loan-text">Loan <span id="loan" class="float-right">0</span></p>
-        <p id="error-message" class="error-text"></p>
+        <p id="loan-error-text" class="error-text">You already have an active loan. Please pay it back before taking another.</p>
         <div class="float-bottom justify-center">
           <button id="loan-btn" class="green">Get a loan</button>
         </div>
@@ -28,9 +29,9 @@
 
       <div class="work-info box">
         <h3>Work</h3>
-        <p>Pay <span id="pay-balance" class="float-right">0 Kr.</span></p>
+        <p>Pay <span id="pay-balance" class="float-right">0 kr.</span></p>
         <div class="justify-center">
-          <button id="repay-btn">Repay loan</button>
+          <button id="repay-btn" class="red">Repay loan</button>
         </div>
         <div class="float-bottom space-evenly">
           <button id="bank-btn" class="yellow">Bank</button>
@@ -71,6 +72,7 @@
       </div>
     </section>
   </main>
+  <p style="font-size: 0.6rem;font-style: italic;margin-left:10px;"><a href="https://www.flickr.com/photos/21644167@N04/8710251481">"CAT"</a><span> by <a href="https://www.flickr.com/photos/21644167@N04">Bahman Farzad</a></span> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/?ref=openverse&atype=html" style="margin-right: 5px;">CC BY 2.0</a><a href="https://creativecommons.org/licenses/by/2.0/?ref=openverse&atype=html" target="_blank" rel="noopener noreferrer" style="display: inline-block;white-space: none;margin-top: 2px;margin-left: 3px;height: 22px !important;"><img style="height: inherit;margin-right: 3px;display: inline-block;" src="https://search.creativecommons.org/static/img/cc_icon.svg?image_id=14463e0e-cff5-4872-9085-7b8d9a251344" /><img style="height: inherit;margin-right: 3px;display: inline-block;" src="https://search.creativecommons.org/static/img/cc-by_icon.svg" /></a></p>
 
   <script src="app.js"></script>
 </body>
