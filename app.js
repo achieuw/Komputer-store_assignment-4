@@ -30,10 +30,10 @@ fetch("https://noroff-komputer-store-api.herokuapp.com/computers")
   .catch((error) => console.log(error));
 
 // -- Helper functions -- (Add helper class?)
-function hideElements(elementsList) {
+function hideElements(...elementsList) {
   elementsList.forEach((e) => (e.style.visibility = "hidden"));
 }
-function showElements(elementsList) {
+function showElements(...elementsList) {
   elementsList.forEach((e) => (e.style.visibility = "visible"));
 }
 const formatNumToSEK = (number) => {
@@ -49,7 +49,6 @@ function addListItemsWithText(dataList, listElement) {
     listElement.appendChild(itemElement);
   }
 }
-// -----------------------
 
 //Base class for Bank functionality
 class Bank {
@@ -62,10 +61,10 @@ class Bank {
   // Check loan status and update elements accordingly
   update() {
     if (this.loan === 0) {
-      hideElements([loanTextElement, loanErrorTextElement, repayBtnElement]);
+      hideElements(loanTextElement, loanErrorTextElement, repayBtnElement);
     } else {
       loanElement.innerText = formatNumToSEK(this.loan);
-      showElements([loanTextElement, repayBtnElement]);
+      showElements(loanTextElement, repayBtnElement);
     }
     balanceElement.innerText = formatNumToSEK(this.balance);
     payElement.innerText = formatNumToSEK(this.pay);
@@ -102,7 +101,7 @@ class Bank {
   handleLoan() {
     // Check for active loan
     if (this.loan > 0) {
-      showElements([loanErrorTextElement]);
+      showElements(loanErrorTextElement);
       return; // Return since a loan cannot be taken if one is already active
     }
     // Loop until a valid input is given
@@ -135,7 +134,7 @@ class Bank {
       this.balance -= priceToPay;
       alert("Successfully bought laptop!");
     } else {
-      showElements([buyErrorTextElement]);
+      showElements(buyErrorTextElement);
     }
   }
 }
@@ -159,7 +158,7 @@ const handleLaptopMenuChange = () => {
   addListItemsWithText(laptopSpecs, specListElement);
   changeLaptopImgSrc();
   changeLaptopInfo();
-  hideElements([buyErrorTextElement]);
+  hideElements(buyErrorTextElement);
 }
 function changeLaptopImgSrc() {
   const imgSrc =
