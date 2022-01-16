@@ -16,7 +16,7 @@ const laptopInfoElement = document.getElementById('laptop-info');
 const buyBtnElement = document.getElementById('buy-btn');
 const buyErrorTextElement = document.getElementById('buy-error-text');
 
-let balance = 10;
+let balance = 0;
 let loan = 0;
 let pay = 0;
 let laptops = [];
@@ -43,14 +43,14 @@ const addLaptopToMenu = (laptop) => {
 }
 // Changes all laptop info elements when changing option in the laptop select menu
 const handleLaptopMenuChange = () => {
-  const laptopSpecs = GetCurrentlySelectedLaptop().specs;
+  const laptopSpecs = getCurrentlySelectedLaptop().specs;
   specListElement.innerHTML = ""; // Remove list elements from spec list before adding new
 
   // Add feature list
   addListItemsWithText(laptopSpecs, specListElement);
   changeLaptopImgSrc();
   //TODO: Change laptop info
-  ChangeLaptopInfo();
+  changeLaptopInfo();
   hideElements([buyErrorTextElement]);
 
   //TODO: Change laptop price
@@ -64,7 +64,7 @@ function addListItemsWithText(dataList, listElement){
   }
 }
 function changeLaptopImgSrc(){
-  const imgSrc = "https://noroff-komputer-store-api.herokuapp.com/" + laptopImgList[GetCurrentlySelectedLaptop().id - 1];
+  const imgSrc = "https://noroff-komputer-store-api.herokuapp.com/" + laptopImgList[getCurrentlySelectedLaptop().id - 1];
   laptopImgElement.src = imgSrc;
   document.getElementById('img-error-text').style.visibility = "hidden";
 }
@@ -73,14 +73,14 @@ laptopImgElement.onerror = function(){
   this.src = 'sadge-kitten.jpg';
   document.getElementById('img-error-text').style.visibility = "visible";
 }
-function ChangeLaptopInfo(){
-  currentSelectedLaptop = GetCurrentlySelectedLaptop();
+function changeLaptopInfo(){
+  currentSelectedLaptop = getCurrentlySelectedLaptop();
   laptopTitleElement.innerText = currentSelectedLaptop.title;
   laptopInfoElement.innerText = currentSelectedLaptop.description;
   laptopPriceElement.innerText = formatNumToSEK(currentSelectedLaptop.price);
 }
 
-const GetCurrentlySelectedLaptop = () => {
+const getCurrentlySelectedLaptop = () => {
   return laptops[laptopMenuElement.selectedIndex];
 }
 
@@ -94,26 +94,33 @@ const handleLoan = () => {
     document.getElementById('error-message').appendChild(errorMsg);
     return; // Return since a loan cannot be taken if one is already active 
   }
-  // Loops until a valid input is given
+  // Loop until a valid input is given
   do{
-    // Get loan amount from user input
-    const loanAmount = parseInt(prompt("Enter loan amount: "));
+    // Regex check for valid number input. 
+    // Supports '.' divider but not ',' because of the currency converter
+    //let regex = /^[+-]?(\d*|\d{1,3}(,\d{3})*)(\.)(\d+)?\b$/;
 
-    if(loanAmount <= 0){
-      alert("Please enter valid amount to loan");
-    }
-    else if(loanAmount > balance * 2){
-      alert("You can't loan more than double your balance, please try again.");
-    }
-    else if(loan === 0){
-      balance += loanAmount;
-      loan += loanAmount;
+    //Number regex
+    let regex = /^\d+$/;
+    let loanAmount = prompt("Enter loan amount: ");
+    if (loanAmount == null) return;
+
+    if(regex.exec(loanAmount)){
+      
+      if(loanAmount > balance * 2){
+        alert("You can't loan more than double your balance, please try again.");
       }
-    else return;
+      else if(loan === 0){
+        balance += parseInt(loanAmount);
+        loan += parseInt(loanAmount);
+      }
+    }
+    else alert("Enter valid amount")
   }while(loan <= 0); // Loops until user input is valid
   
   updateBank();
 }
+
 const handleBank = () => {
   loanPayment = pay * 0.1;
   balanceAmount = pay * 0.9;
@@ -144,7 +151,7 @@ const handleRepay = () => {
   }
 }
 function updateBank(){
-  if(loan === 0){
+  if(loan === 0.0){
     hideElements([loanTextElement, errorMsg, repayBtnElement]);
   }
   else{
@@ -170,11 +177,11 @@ function showElements(elementsList){
 const formatNumToSEK = (number) => {
   return new Intl.NumberFormat(
     'sv-SE', {style: 'currency', currency: 'SEK' })
-    .format(number);
+    .format(number)
 }
 
 const handleBuy = () => {
-  const priceToPay = parseInt(GetCurrentlySelectedLaptop().price);
+  const priceToPay = parseInt(getCurrentlySelectedLaptop().price);
   if(balance > priceToPay){
     balance -= priceToPay;
     alert("Successfully bought laptop!");
