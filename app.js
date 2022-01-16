@@ -16,6 +16,7 @@ const laptopInfoElement = document.getElementById("laptop-info");
 const buyBtnElement = document.getElementById("buy-btn");
 const buyErrorTextElement = document.getElementById("buy-error-text");
 const loanErrorTextElement = document.getElementById("loan-error-text")
+const laptopStockTextElement = document.getElementById("laptop-stock-text")
 
 const workPay = 100;
 const paybackRate = 0.1; // set rate between 0-1
@@ -178,6 +179,9 @@ function changeLaptopInfo() {
   laptopTitleElement.innerText = currentSelectedLaptop.title;
   laptopInfoElement.innerText = currentSelectedLaptop.description;
   laptopPriceElement.innerText = formatNumToSEK(currentSelectedLaptop.price);
+  laptopStockTextElement.innerText = `Stock: ${currentSelectedLaptop.stock}`;
+  if(currentSelectedLaptop.stock === 1) laptopStockTextElement.style = 'color: #d45;';
+  else laptopStockTextElement.style = 'color: black;';
 }
 const getCurrentlySelectedLaptop = () => {
   return laptops[laptopMenuElement.selectedIndex];

@@ -26,15 +26,11 @@ section{
   flex-wrap: wrap;
   box-sizing: border-box;
 }
-h4{
-  margin: 0;
-}
 button{
   border: none;
   border-radius: 8px;
   padding: 8px 20px;
   cursor: pointer;
-  margin-top: 50px;
   transition: 0.5s;
   background-size: 200% auto;
   font-size: 12px;
@@ -75,23 +71,23 @@ button:hover{
 }
 .yellow{
   background-image: linear-gradient(to right, #fbff25 0%, #f7db82 51%, #fbff25 100%);
-  border: 1px solid rgb(226, 226, 0);
+  border: 1px solid rgb(175, 175, 20);
 }
 .green{
   background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%);
-  border: 1px solid rgb(43, 206, 157);
+  border: 1px solid rgb(18, 153, 112);
 }
 .blue{
   background-image: linear-gradient(to right, #4967ee 0%, #8fd3f4 51%, #4967ee 100%);
-  border: 1px solid rgb(35, 75, 185);
+  border: 1px solid rgb(19, 60, 175);
 }
 .red{
   background-image: linear-gradient(to right, #df2727 0%, #ffb94f 51%, #df2727 100%);
   border: 1px solid rgb(175, 15, 15);
 }
 .light-blue{
-  background-color: rgb(64, 165, 233);
-  border: 1px solid rgb(0, 130, 216);
+  background-color: rgb(90, 214, 236);
+  border: 1px solid rgb(21, 133, 161);
 }
 /* -!- Global -!- */
 
@@ -125,6 +121,7 @@ header{
 }
 #repay-btn{
   z-index: 10;
+  margin-top: 60px;
   visibility: hidden;
 }
 @keyframes box-shadow-anim{
@@ -162,4 +159,7 @@ header{
 #laptop-img{
   width: 150px;
   color: transparent;
+}
+#laptop-stock-text{
+  margin: 0;
 }
