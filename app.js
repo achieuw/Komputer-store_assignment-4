@@ -17,11 +17,17 @@ const buyBtnElement = document.getElementById("buy-btn");
 const buyErrorTextElement = document.getElementById("buy-error-text");
 const loanErrorTextElement = document.getElementById("loan-error-text")
 const laptopStockTextElement = document.getElementById("laptop-stock-text")
+const promoBtnElement = document.getElementById("promo-btn");
+const promoTextElement = document.getElementById("promo-text");
 
-const workPay = 100;
+let workPay = 100;
+let workBtnPresses = 0;
+const promoPayIncrease = 50;
+const clicksForPromo = 10;
 const paybackRate = 0.1; // set rate between 0-1
-let laptops = [];
-let laptopImgList = [];
+let laptops = []; // Can't be const since data arr is copied in the fetch?
+const laptopImgList = [];
+const laptopStock = [];
 
 // Fetche data from API and add to list of laptops
 fetch("https://noroff-komputer-store-api.herokuapp.com/computers")
@@ -31,19 +37,15 @@ fetch("https://noroff-komputer-store-api.herokuapp.com/computers")
   .catch((error) => console.log(error));
 
 // -- Helper functions -- (Add helper class?)
-function hideElements(...elementsList) {
-  elementsList.forEach((e) => (e.style.visibility = "hidden"));
-}
-function showElements(...elementsList) {
-  elementsList.forEach((e) => (e.style.visibility = "visible"));
-}
+const hideElements = (...elements) => elements.forEach(e => e.style.visibility = "hidden");
+const showElements = (...elements) => elements.forEach(e => e.style.visibility = "visible");
 const formatNumToSEK = (number) => {
   return new Intl.NumberFormat("sv-SE", {
     style: "currency",
     currency: "SEK",
   }).format(number);
 };
-function addListItemsWithText(dataList, listElement) {
+const addListItemsWithText = (dataList, listElement) => {
   for (const item of dataList) {
     const itemElement = document.createElement("li");
     itemElement.innerText = item;
@@ -63,12 +65,15 @@ class Bank {
   update() {
     if (this.loan === 0) {
       hideElements(loanTextElement, loanErrorTextElement, repayBtnElement);
-    } else {
+    } 
+    else {
       loanElement.innerText = formatNumToSEK(this.loan);
       showElements(loanTextElement, repayBtnElement);
     }
     balanceElement.innerText = formatNumToSEK(this.balance);
     payElement.innerText = formatNumToSEK(this.pay);
+
+    if(workBtnPresses >= clicksForPromo) showElements(promoBtnElement);
   }
   // Logic for the payments
   handleBank() {
@@ -86,7 +91,8 @@ class Bank {
   }
   // Add payment to pay balance
   handleWork = () => {
-    this.pay += workPay;
+    this.pay += parseInt(workPay);
+    workBtnPresses += 1;
   }
   // Logic for loan repay
   handleRepay() {
@@ -131,12 +137,30 @@ class Bank {
   // Check price against current
   handleBuy() {
     const priceToPay = parseInt(getCurrentlySelectedLaptop().price);
-    if (this.balance >= priceToPay) {
+    if (this.balance >= priceToPay && getLaptopStock() > 0) {
+      hideElements(buyErrorTextElement);
       this.balance -= priceToPay;
       alert("Successfully bought laptop!");
-    } else {
+      updateLaptopStock(-1);
+    } else if (getLaptopStock() <= 0){
+      // out of stock error
+      buyErrorTextElement.innerText = "Product is out of stock :(";
       showElements(buyErrorTextElement);
     }
+    else{
+      buyErrorTextElement.innerText = "You have insufficient balance";
+      showElements(buyErrorTextElement);
+    }
+  }
+  handlePromotion(payIncrease){
+    workPay = parseInt(workPay + payIncrease);
+    promoTextElement.innerText = `Workpay increased to ${workPay}`;
+    hideElements(promoBtnElement);
+    showElements(promoTextElement);
+    setTimeout(() => {
+    hideElements(promoTextElement);
+    }, 3000);
+    workBtnPresses = 0;
   }
 }
 
@@ -149,6 +173,7 @@ const addLaptopToMenu = (laptop) => {
   const laptopOption = new Option(laptop.title, laptop.id);
   laptopMenuElement.appendChild(laptopOption);
   laptopImgList.push(laptop.image);
+  laptopStock.push(laptop.stock);
 }
 // Change all laptop info elements when changing option in the laptop select menu
 const handleLaptopMenuChange = () => {
@@ -174,18 +199,23 @@ laptopImgElement.onerror = function () {
   this.src = "sadge-kitten.jpg";
   document.getElementById("img-error-text").style.visibility = "visible";
 }
-function changeLaptopInfo() {
+const changeLaptopInfo = () => {
   currentSelectedLaptop = getCurrentlySelectedLaptop();
   laptopTitleElement.innerText = currentSelectedLaptop.title;
   laptopInfoElement.innerText = currentSelectedLaptop.description;
   laptopPriceElement.innerText = formatNumToSEK(currentSelectedLaptop.price);
-  laptopStockTextElement.innerText = `Stock: ${currentSelectedLaptop.stock}`;
-  if(currentSelectedLaptop.stock === 1) laptopStockTextElement.style = 'color: #d45;';
-  else laptopStockTextElement.style = 'color: black;';
+  updateLaptopStock(0);
 }
-const getCurrentlySelectedLaptop = () => {
-  return laptops[laptopMenuElement.selectedIndex];
+const updateLaptopStock = (numToAdd) => {
+  currentSelectedLaptop = getCurrentlySelectedLaptop();
+  const stock = parseInt(laptopStock[currentSelectedLaptop.id - 1] + numToAdd);
+  laptopStock[currentSelectedLaptop.id - 1] = stock;
+  laptopStockTextElement.innerText = `Stock: ${stock}`;
+  if(stock < 2) laptopStockTextElement.style = 'color: #d45;';
+  else laptopStockTextElement.style = 'color: green;';
 }
+const getLaptopStock = () => parseInt(laptopStock[getCurrentlySelectedLaptop().id - 1]);
+const getCurrentlySelectedLaptop = () => laptops[laptopMenuElement.selectedIndex];
 
 laptopMenuElement.addEventListener('change', handleLaptopMenuChange);
 
@@ -197,3 +227,4 @@ bankBtnElement.addEventListener('click', () => {bank.handleBank(), bank.update()
 workBtnElement.addEventListener('click', () => {bank.handleWork(), bank.update()});
 repayBtnElement.addEventListener('click', () => {bank.handleRepay(), bank.update()});
 buyBtnElement.addEventListener('click', () => {bank.handleBuy(), bank.update()});
+promoBtnElement.addEventListener('click', () => {bank.handlePromotion(promoPayIncrease), bank.update()});
