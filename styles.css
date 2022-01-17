@@ -31,7 +31,6 @@ button{
   border-radius: 8px;
   padding: 8px;
   cursor: pointer;
-  transition: 0.5s;
   background-size: 200% auto;
   font-size: 12px;
   width: 40%;

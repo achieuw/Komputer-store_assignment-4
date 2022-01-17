@@ -1,3 +1,5 @@
+import {hideElements, showElements, formatNumToSEK} from "./modules/utils.js";
+
 const balanceElement = document.getElementById("bank-balance");
 const loanElement = document.getElementById("loan");
 const loanTextElement = document.getElementById("loan-text");
@@ -36,15 +38,6 @@ fetch("https://noroff-komputer-store-api.herokuapp.com/computers")
   .then((laptops) => addLaptopsToMenu(laptops))
   .catch((error) => console.log(error));
 
-// -- Helper functions -- (Add helper class?)
-const hideElements = (...elements) => elements.forEach(e => e.style.visibility = "hidden");
-const showElements = (...elements) => elements.forEach(e => e.style.visibility = "visible");
-const formatNumToSEK = (number) => {
-  return new Intl.NumberFormat("sv-SE", {
-    style: "currency",
-    currency: "SEK",
-  }).format(number);
-};
 const addListItemsWithText = (dataList, listElement) => {
   for (const item of dataList) {
     const itemElement = document.createElement("li");
@@ -153,14 +146,14 @@ class Bank {
     }
   }
   handlePromotion(payIncrease){
-    workPay = parseInt(workPay + payIncrease);
-    promoTextElement.innerText = `Workpay increased to ${workPay}`;
     hideElements(promoBtnElement);
     showElements(promoTextElement);
     setTimeout(() => {
     hideElements(promoTextElement);
     }, 3000);
     workBtnPresses = 0;
+    workPay = parseInt(workPay + payIncrease);
+    promoTextElement.innerText = `Workpay increased to ${workPay}`;
   }
 }
 
@@ -200,14 +193,14 @@ laptopImgElement.onerror = function () {
   document.getElementById("img-error-text").style.visibility = "visible";
 }
 const changeLaptopInfo = () => {
-  currentSelectedLaptop = getCurrentlySelectedLaptop();
+  const currentSelectedLaptop = getCurrentlySelectedLaptop();
   laptopTitleElement.innerText = currentSelectedLaptop.title;
   laptopInfoElement.innerText = currentSelectedLaptop.description;
   laptopPriceElement.innerText = formatNumToSEK(currentSelectedLaptop.price);
   updateLaptopStock(0);
 }
 const updateLaptopStock = (numToAdd) => {
-  currentSelectedLaptop = getCurrentlySelectedLaptop();
+  const currentSelectedLaptop = getCurrentlySelectedLaptop();
   const stock = parseInt(laptopStock[currentSelectedLaptop.id - 1] + numToAdd);
   laptopStock[currentSelectedLaptop.id - 1] = stock;
   laptopStockTextElement.innerText = `Stock: ${stock}`;
